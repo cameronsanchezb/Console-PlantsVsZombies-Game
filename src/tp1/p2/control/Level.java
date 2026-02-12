@@ -1,0 +1,76 @@
+package tp1.p2.control;
+
+import tp1.p2.control.exceptions.GameException;
+import tp1.p2.control.exceptions.LevelCastException;
+
+/**
+ * Represents the allowed levels in the game.
+ *
+ */
+public enum Level {
+
+	EASY(3, 0.1), HARD(5, 0.2), INSANE(10, 0.3);
+
+	private int numberOfZombies;
+
+	private double zombieFrequency;
+
+	private Level(int numberOfZombies, double zombieFrequency) {
+		this.numberOfZombies = numberOfZombies;
+		this.zombieFrequency = zombieFrequency;
+	}
+
+	public int getNumberOfZombies() {
+		return numberOfZombies;
+	}
+
+	public double getZombieFrequency() {
+		return zombieFrequency;
+	}
+
+	@Override
+	public String toString() {
+		if(this.equals(EASY)) return "EASY";
+		else if(this.equals(HARD)) return "HARD";
+		else if(this.equals(INSANE)) return "INSANE";
+		else return null;
+	}
+
+	/**
+	 * Parse an string and return any matching level
+	 *
+	 * @param inputString string to parse
+	 * @return the parsed {@link Level} or <code>null</code> if none match.
+	 * @throws GameException 
+	 */
+	public static Level valueOfIgnoreCase(String inputString) throws LevelCastException {
+		for (Level level : Level.values()) {
+			if (level.name().equalsIgnoreCase(inputString)) {
+				return level;
+			}
+		}
+		throw new LevelCastException();
+	}
+
+	/**
+	 * Returns a string representation of all the levels joined with
+	 * <code>separator</code>
+	 *
+	 * @param separator String used as separator
+	 *
+	 * @return the string resulted from joining all levels using
+	 *         <code>separator</code>
+	 */
+	public static String all(String separator) {
+		StringBuilder buffer = new StringBuilder();
+		int levelCount = 0;
+		for (Level level : Level.values()) {
+			if (levelCount > 0) {
+				buffer.append(separator);
+			}
+			buffer.append(level.name());
+			levelCount++;
+		}
+		return buffer.toString();
+	}
+}
